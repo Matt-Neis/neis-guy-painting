@@ -1,0 +1,31 @@
+h2 {
+    font-family: sans-serif;
+    font-style: italic;
+    margin-left: 20px;
+}
+
+body {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.testimonial-body p {
+    font-size: 16pt;
+    font-style: italic;
+    font-family: sans-serif;
+    display: inline-block;
+}
+
+span.testimonial-signature {
+    font-size: 12pt;
+    font-weight: bold;
+    margin-left: 1%;
+    font-family: sans-serif;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+    .testimonial-body p {
+        font-size: 14pt;
+    }
+}
