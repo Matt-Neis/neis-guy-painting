@@ -22,6 +22,7 @@
     "react-scripts": "2.1.1",
     "react-sidebar": "^3.0.2",
     "react-table": "^6.8.6",
+    "sendemail": "^3.4.0",
     "yup": "^0.26.6"
   },
   "scripts": {
