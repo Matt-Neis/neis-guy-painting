@@ -41,7 +41,7 @@ class Quotes extends React.Component {
                             </li>
                             <li>
                                 <label>E-mail Address</label>
-                                <input
+                                <input id="txtEmail"
                                   type="text"
                                   placeholder="Enter email address here"
                                   onChange={props.handleChange}
@@ -51,7 +51,7 @@ class Quotes extends React.Component {
                             </li>
                             <li>
                                 <label>Phone Number</label>
-                                <input
+                                <input id="txtPhone"
                                   type="number"
                                   placeholder="Enter phone number (with area code)"
                                   onChange={props.handleChange}
@@ -61,7 +61,7 @@ class Quotes extends React.Component {
                             </li>
                             <li>
                                 <label>City</label>
-                                <input
+                                <input id="txtCity"
                                   type="text"
                                   placeholder="Enter City"
                                   onChange={props.handleChange}
@@ -71,7 +71,7 @@ class Quotes extends React.Component {
                             </li>
                             <li>
                                 <label>Description</label>
-                                <textarea
+                                <textarea id="txtDesc"
                                   type="text"
                                   rows="6"
                                   placeholder="Enter a brief description of the service you are requesting"
@@ -88,6 +88,11 @@ class Quotes extends React.Component {
                     </form>
                   )}
                 />
+                <p>
+                    <b>*Rates are based on an hourly wage of $50/hr. 
+                        Addtional costs for materials may occur.
+                    </b>
+                </p>
             </div>
         );
     }

@@ -5,10 +5,12 @@
   flex-wrap: wrap;
   align-items: center;
   font-family: sans-serif;
+  width: 55%
 }
 
 .flex-outer > li > label,
 .flex-outer li p {
+  /*flex: 1 0 120px; */
   flex: 1 0 120px;
   max-width: 120px;
 }
@@ -26,13 +28,15 @@
     color: #f2f2f2;
     text-transform: uppercase;
     letter-spacing: .09em;
-    border-radius: 2px;
+    border-radius: 2px; /* rounds out the edges of button */
+    font-family: sans-serif;
   }
 
 .flex-outer li input,
 .flex-outer li textarea {
   padding: 10px;
   font-size: 16px;
+  font-family: sans-serif;
 }
 
 h2, p {
@@ -48,6 +52,18 @@ h2, p {
     .flex-outer li input,
     .flex-outer li textarea {
         font-size: 18px;
+    }
+}
+
+/* for when the page is halved */
+@media (max-width: 1200px) {
+    .flex-outer li,
+    .flex-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      font-family: sans-serif;
+      width: 100%;
     }
 }
 
