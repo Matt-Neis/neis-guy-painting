@@ -10,7 +10,7 @@
 .flex-outer > li > label,
 .flex-outer li p {
   flex: 1 0 120px;
-  max-width: 220px;
+  max-width: 120px;
 }
  
 .flex-outer > li > label + *,
@@ -31,7 +31,7 @@
 
 .flex-outer li input,
 .flex-outer li textarea {
-  padding: 15px;
+  padding: 10px;
   font-size: 16px;
 }
 
@@ -47,7 +47,7 @@ h2, p {
 
     .flex-outer li input,
     .flex-outer li textarea {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 
