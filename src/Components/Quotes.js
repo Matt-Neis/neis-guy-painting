@@ -3,6 +3,9 @@ import {Formik} from 'formik' // forms library
 import {Yup} from 'yup' // object schema validation
 import '../Client/CSS/Quotes.css';
 
+// email variables
+
+
 class Quotes extends React.Component {
     render() {
         return (
@@ -19,7 +22,7 @@ class Quotes extends React.Component {
                                    phone: '',
                                    city: '',
                                    desc: ''}}
-                  onSubmit={(values, actions) => {
+                  onSubmit={(values, actions) => { // ses stuff will go here
                     setTimeout(() => {
                       alert(JSON.stringify(values, null, 2));
                       actions.setSubmitting(false);
@@ -29,7 +32,7 @@ class Quotes extends React.Component {
                     <form onSubmit={props.handleSubmit}>
                         <ul class="flex-outer">
                             <li>
-                            <label>Name</label>
+                                <label>Name</label>
                                 <input id="txtName"
                                   type="text"
                                   size="16"
