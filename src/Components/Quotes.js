@@ -93,6 +93,7 @@ class Quotes extends React.Component {
                         Addtional costs for materials may occur.
                     </b>
                 </p>
+                
             </div>
         );
     }

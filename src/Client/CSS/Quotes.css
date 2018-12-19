@@ -35,13 +35,17 @@
 .flex-outer li input,
 .flex-outer li textarea {
   padding: 10px;
-  font-size: 16px;
   font-family: sans-serif;
 }
 
 h2, p {
     font-family: sans-serif;
 }
+
+/*div {
+  margin-left: 5%;
+  margin-right: 5%;
+} */
 
 /* Mobile view */
 @media (max-width: 768px) {
