@@ -4,13 +4,17 @@ import Toolbar from '../../Components/Toolbar/Toolbar';
 import BottomBar from '../../Components/BottomBar/BottomBar';
 import SideDrawer from '../../Components/SideDrawer/SideDrawer';
 import Backdrop from '../../Components/Backdrop/Backdrop';
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Services from '../../Components/Services';
 import Photos from '../../Components/Photos';
 import Quotes from '../../Components/Quotes';
 import Testimonials from '../../Components/Testimonials';
 import Home from '../../Components/Home';
 import Contact from '../../Components/Contact';
+import {
+  CSSTransition,
+  TransitionGroup
+} from 'react-transition-group'
 
 class App extends Component {
   state= {
@@ -28,6 +32,9 @@ class App extends Component {
     this.setState({sideDrawerOpen: false}); // don't care about previous state of sidedrawer
   };
 
+  // transition functions
+
+
   render() {
     let backdrop;
 
@@ -37,20 +44,39 @@ class App extends Component {
 
     return (
       <Router>
-        <div style={{height: "100%"}}>
+        <div className="page">
           <Toolbar drawerClickHandler={this.drawerToggleClickHandler}/> {/*you can pass the handler to the toolbar which contains the button*/}
           <SideDrawer show={this.state.sideDrawerOpen}/>
           {backdrop}
           <main style={{marginTop: '64px'}}> {/* This will carry through all pages */}
             <p className="header-text">Interior/Exterior Painting, Pressure Washing, Home Maintenance Needs, Insured</p>
           </main>
-          <BottomBar />
-          <Route path="/home" component={Home}/>
-          <Route path="/services" component={Services}/>
-          <Route path="/photos" component={Photos}/>
-          <Route path="/quotes" component={Quotes}/>
-          <Route path="/testimonials" component={Testimonials}/>
-          <Route path="/contact" component={Contact}/>
+          <BottomBar/>
+          {/*<Route render={({location}) => (
+            <TransitionGroup>
+              <CSSTransition
+                key={location.key} // unique id for individual css transition groups
+                timeout={3000}
+                classNames="fade">
+                <Switch>
+                  <Route path="/home" component={Home}/>
+                  <Route path="/services" component={Services}/>
+                  <Route path="/photos" component={Photos}/>
+                  <Route path="/quotes" component={Quotes}/>
+                  <Route path="/testimonials" component={Testimonials}/>
+                  <Route path="/contact" component={Contact}/>
+                </Switch>
+              </CSSTransition>
+            </TransitionGroup>
+          )}/> */}
+          <Switch>
+            <Route path="/home" component={Home}/>
+            <Route path="/services" component={Services}/>
+            <Route path="/photos" component={Photos}/>
+            <Route path="/quotes" component={Quotes}/>
+            <Route path="/testimonials" component={Testimonials}/>
+            <Route path="/contact" component={Contact}/>
+          </Switch>
         </div>
       </Router>
     );

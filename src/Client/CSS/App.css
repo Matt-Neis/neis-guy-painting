@@ -13,9 +13,49 @@
   width: 100%;
 }
 
+body {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+h2 {
+  font-family: sans-serif;
+  font-style: italic;
+  margin-left: 20px;
+}
+
+.page {
+  height:100%;
+  position: relative;
+  left: 0;
+  right: 0;
+}
+
+.fade-appear {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-appear-active,
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 3000ms linear 1500ms;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0;
+  transition: opacity 1500ms linear;
+}
+
 /* mobile view */
 @media (max-width: 768px) {
   .header-text {
     display: none;
   }
 }
+
+/* style={{height: "100%"}} */
