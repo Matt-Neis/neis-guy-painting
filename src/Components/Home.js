@@ -20,10 +20,6 @@ class Home extends React.Component {
             <div>
                 <p className="body">
                     lskdj
-                    <span><img className="image"
-                                src="https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg"
-                                alt="test"/>
-                    </span>
                 </p>
                 {/* Various sections */}
                 {/* Keep at bottom of the page */}

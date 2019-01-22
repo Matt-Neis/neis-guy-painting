@@ -37,6 +37,13 @@ const toolbar = props => ( // () can be used instead of {}
                 </ul>
             </div>
         </nav>
+        {/* Colored bar */}
+        <div className="colorbar">
+            <span className="colorbar_color1"></span>
+            <span className="colorbar_color2"></span>
+            <span className="colorbar_color3"></span>
+            <span className="colorbar_color4"></span>
+        </div>
     </header>
 );
 

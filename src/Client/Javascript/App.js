@@ -48,10 +48,9 @@ class App extends Component {
           <Toolbar drawerClickHandler={this.drawerToggleClickHandler}/> {/*you can pass the handler to the toolbar which contains the button*/}
           <SideDrawer show={this.state.sideDrawerOpen}/>
           {backdrop}
-          <main style={{marginTop: '64px'}}> {/* This will carry through all pages */}
-            <p className="header-text">Color Bar Color Bar Color Bar Color Bar Color Bar Color Bar Color Bar Color Bar Color Bar</p>
+          <main style={{marginTop: '80px'}}> {/* This will carry through all pages */}
           </main>
-          <BottomBar/>
+          
           <Switch>
             <Route path="/home" component={Home}/>
             <Route path="/services" component={Services}/>
