@@ -49,26 +49,9 @@ class App extends Component {
           <SideDrawer show={this.state.sideDrawerOpen}/>
           {backdrop}
           <main style={{marginTop: '64px'}}> {/* This will carry through all pages */}
-            <p className="header-text">Interior/Exterior Painting, Pressure Washing, Home Maintenance Needs, Insured</p>
+            <p className="header-text">Color Bar Color Bar Color Bar Color Bar Color Bar Color Bar Color Bar Color Bar Color Bar</p>
           </main>
           <BottomBar/>
-          {/*<Route render={({location}) => (
-            <TransitionGroup>
-              <CSSTransition
-                key={location.key} // unique id for individual css transition groups
-                timeout={3000}
-                classNames="fade">
-                <Switch>
-                  <Route path="/home" component={Home}/>
-                  <Route path="/services" component={Services}/>
-                  <Route path="/photos" component={Photos}/>
-                  <Route path="/quotes" component={Quotes}/>
-                  <Route path="/testimonials" component={Testimonials}/>
-                  <Route path="/contact" component={Contact}/>
-                </Switch>
-              </CSSTransition>
-            </TransitionGroup>
-          )}/> */}
           <Switch>
             <Route path="/home" component={Home}/>
             <Route path="/services" component={Services}/>

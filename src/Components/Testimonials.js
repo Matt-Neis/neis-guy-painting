@@ -5,25 +5,44 @@ import {TransitionGroup, CSSTransition} from 'react-transition-group';
 
 const doug_and_sue_images =
 [{
+        src: "https://goo.gl/X43DWJ",
+        thumbnail: "https://goo.gl/X43DWJ",
+        thumbnailWidth: 150,
+        thumbnailHeight: 150,
+        caption: "Family Room"
+},
+{
+        src: "https://goo.gl/kTCD6T",
+        thumbnail: "https://goo.gl/kTCD6T",
+        thumbnailWidth: 150,
+        thumbnailHeight: 150,
+        caption: "Stairs"
+},
+{
+        src: "https://goo.gl/BcZvzf",
+        thumbnail: "https://goo.gl/BcZvzf",
+        thumbnailWidth: 150,
+        thumbnailHeight: 150,
+        caption: "Dining Room"
+}]
+
+const default_images = 
+[
+    {
         src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
         thumbnail: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_n.jpg",
         thumbnailWidth: 320,
         thumbnailHeight: 174,
+        tags: [{value: "Nature", title: "Nature"}, {value: "Flora", title: "Flora"}],
         caption: "After Rain (Jeshu John - designerspics.com)"
-},
-{
+    },
+    {
         src: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg",
         thumbnail: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_n.jpg",
         thumbnailWidth: 320,
         thumbnailHeight: 212,
         caption: "Boats (Jeshu John - designerspics.com)"
-},
-{
-        src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-        thumbnail: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
-        thumbnailWidth: 320,
-        thumbnailHeight: 212
-}]
+    }];
 
 class Testimonials extends React.Component {
     render() {
@@ -51,7 +70,7 @@ class Testimonials extends React.Component {
                         Blah blah blah blah blahhhhhhhhhhhhhhhhh."
                         <span class="testimonial-signature">- Some random dude &sdot; Somwhere, Anywhere</span>
                     </p>
-                    <Gallery images={doug_and_sue_images} // will change
+                    <Gallery images={default_images} // will change
                              backdropClosesModal={true}
                              enableKeyboardInput={true}
                              enableImageSelection={false}/> 
@@ -62,7 +81,7 @@ class Testimonials extends React.Component {
                         Blah blah blah blah blahhhhhhhhhhhhhhhhh."
                         <span class="testimonial-signature">- Some random dude &sdot; Somwhere, Anywhere</span>
                     </p>
-                    <Gallery images={doug_and_sue_images} // will change
+                    <Gallery images={default_images} // will change
                              backdropClosesModal={true}
                              enableKeyboardInput={true}
                              enableImageSelection={false}/> 
@@ -73,7 +92,7 @@ class Testimonials extends React.Component {
                         Blah blah blah blah blahhhhhhhhhhhhhhhhh."
                         <span class="testimonial-signature">- Some random dude &sdot; Somwhere, Anywhere</span>
                     </p>
-                    <Gallery images={doug_and_sue_images} // will change
+                    <Gallery images={default_images} // will change
                              backdropClosesModal={true}
                              enableKeyboardInput={true}
                              enableImageSelection={false}/> 

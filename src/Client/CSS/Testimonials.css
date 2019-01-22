@@ -1,14 +1,13 @@
 section {
     margin-left: 5%;
     margin-right: 5%;
-    padding-bottom: 225px;  
+    padding-bottom: 200px;  
     opacity: 0;
-    
 }
 
 .testimonial-body {
     -webkit-animation: fadein 3s;
-    animation-fill-mode: forwards;
+    animation-fill-mode: forwards; /* keeps elements at the ending keyframe */
 }
 
 .testimonial-body p {

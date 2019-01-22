@@ -9,14 +9,14 @@ class Quotes extends React.Component {
             <div>
                 <h2>Request A Quote...</h2>
                 <p>
-                    If you would like to receive an online quote, please fill out the information below. 
-                    We ask that you be as descriptive as possible.
-                    Please note that quotes requested online will take time to review. 
+                    If you would like to receive a quote, please fill out the form below. You will be contacted
+                    within 48 hours.
                 </p>
                 <Formik
                   initialValues={{ name: '', 
                                    email: '',
                                    phone: '',
+                                   address: '',
                                    city: '',
                                    desc: ''}}
                   onSubmit={(values, actions) => {
@@ -60,6 +60,17 @@ class Quotes extends React.Component {
                                   name="phone"/>
                             </li>
                             <li>
+                            <label>Street Address</label>
+                                <input id="txtAddress"
+                                  type="text"
+                                  size="16"
+                                  placeholder="Enter street address"
+                                  onChange={props.handleChange}
+                                  onBlur={props.handleBlur}
+                                  value={props.values.address}
+                                  name="address"/>
+                            </li>
+                            <li>
                                 <label>City</label>
                                 <input id="txtCity"
                                   type="text"
@@ -89,9 +100,7 @@ class Quotes extends React.Component {
                   )}
                 />
                 <p>
-                    <b>*Rates are based on an hourly wage of $50/hr. 
-                        Addtional costs for materials may occur.
-                    </b>
+                    <b>"Let me think on that"</b>
                 </p>
                 
             </div>
