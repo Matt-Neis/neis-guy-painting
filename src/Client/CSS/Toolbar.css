@@ -4,8 +4,9 @@
     width: 100%;
     top: 0;
     left: 0;
-    background: #0079d3;
-    /* background: #A9A9A9; */
+    /* background: #0079d3; */
+    /* background: #a0a0a0; */
+    background: #4c4c4c;
     z-index: 1;
 }
 
