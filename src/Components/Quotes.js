@@ -2,6 +2,7 @@ import React from 'react';
 import {Formik} from 'formik' // forms library
 import {Yup} from 'yup' // object schema validation
 import '../Client/CSS/Quotes.css';
+import 'gmail-send';
 
 class Quotes extends React.Component {
     render() {
@@ -19,10 +20,30 @@ class Quotes extends React.Component {
                                    address: '',
                                    city: '',
                                    desc: ''}}
-                  onSubmit={(values, actions) => {
+                  onSubmit={(values, actions) => { // this is where json values can be accessed
                     setTimeout(() => {
-                      alert(JSON.stringify(values, null, 2));
-                      actions.setSubmitting(false);
+
+                        // create the message with the json string
+                        var message = `Name: ${values.name}\n` +
+                                      `Email: ${values.email}\n` +
+                                      `Phone Number: ${values.phone}\n` +
+                                      `Address: ${values.address}\n` + 
+                                      `City: ${values.city}\n\n` +
+                                      `Message: ${values.desc}`;
+
+                        alert(message);
+
+                        // credential variables
+                        var send = require('gmail-send')({
+                            user: 'neismj12@gmail.com',
+                            pass: 'Butwhatisittho23!',
+                            to: 'no.reply.neisguypainting@gmail.com',
+                            subject: 'Test Email',
+                            text: 'Fucasdfk'
+                        });
+
+                        alert(JSON.stringify(values, null, 2));
+                        actions.setSubmitting(false);
                     }, 1000);
                   }}
                   render={props => (
@@ -98,7 +119,7 @@ class Quotes extends React.Component {
                       {props.errors.name && <div id="feedback">{props.errors.name}</div>}
                     </form>
                   )}
-                />
+                /> {/* End formik */}
                 <p>
                     <b>"Let me think on that"</b>
                 </p>
