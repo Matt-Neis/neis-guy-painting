@@ -41,16 +41,6 @@ function authorize(credentials, callback) { // credentials should eventually go 
     // console.log(callback);
     callback(oAuth2Client);
   });
-
-  // // Check if we have previously stored a token.
-  // fs.readFile(TOKEN_PATH, function(err, token) {
-  //   if (err) {
-  //     getNewToken(oauth2Client, callback);
-  //   } else {
-  //     oauth2Client.credentials = JSON.parse(token);
-  //     callback(oauth2Client);
-  //   }
-  // });
 }
 
 /**
@@ -158,11 +148,11 @@ function sendMessage(auth, callback) {
   //var base64EncodedEmail = Buffer.from(message).toString('base64');
 
   var base64EncodedEmail = btoa(`To: neismj12@gmail.com\n` +
-             `Subject: Fuck this better work\n` +
+             `Subject: Test 2\n` +
              `Date:\r\n` + // Removing timestamp
              `Message-Id:\r\n` + // Removing message id
              `From:\r\n` + // Removing from
-             `If this doesn't work I'm gonna jump off my balcony`) // Adding our actual message
+             `Name - Test 2\nSecond Line\n3rd Line`) // Adding our actual message
   var mail = base64EncodedEmail;
 
   // console.log(base64EncodedEmail); // debug

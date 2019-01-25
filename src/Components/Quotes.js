@@ -3,6 +3,7 @@ import {Formik} from 'formik' // forms library
 import {Yup} from 'yup' // object schema validation
 import '../Client/CSS/Quotes.css';
 import 'gmail-send';
+const btoa = require('btoa');
 
 class Quotes extends React.Component {
     render() {
@@ -24,24 +25,18 @@ class Quotes extends React.Component {
                     setTimeout(() => {
 
                         // create the message with the json string
-                        var message = `Name: ${values.name}\n` +
-                                      `Email: ${values.email}\n` +
-                                      `Phone Number: ${values.phone}\n` +
-                                      `Address: ${values.address}\n` + 
-                                      `City: ${values.city}\n\n` +
-                                      `Message: ${values.desc}`;
-
+                        var message = `To: neismj12@gmail.com\n` + // this will change
+                                      `Subject: Request for Quote Received\n` +
+                                      `Date:\r\n` + // Removing timestamp
+                                      `Message-Id:\r\n` + // Removing message id
+                                      `From:\r\n` + // Removing from
+                                      `Name - ${values.name}\nEmail - ${values.email}\nPhone - ${values.phone}\nAddress - ${values.address}\nCity - ${values.city}\n\n${values.desc}` // Adding our actual message - has to be all one line so it looks ugly af
+        
                         alert(message);
 
-                        // credential variables
-                        var send = require('gmail-send')({
-                            user: 'neismj12@gmail.com',
-                            pass: 'Butwhatisittho23!',
-                            to: 'no.reply.neisguypainting@gmail.com',
-                            subject: 'Test Email',
-                            text: 'Fucasdfk'
-                        });
-
+                        // convert the json object to b64 so the gmail api can use it
+                        var b64String = btoa(message);
+                        console.log(b64String);
                         alert(JSON.stringify(values, null, 2));
                         actions.setSubmitting(false);
                     }, 1000);
