@@ -1,9 +1,12 @@
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
+const btoa = require('btoa');
+const googleAuth = require('google-auth-library');
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/gmail.send', 'https://www.googleapis.com/auth/gmail.readonly'];
+// const SCOPES = ['https://mail.google.com/'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
@@ -15,9 +18,9 @@ fs.readFile('credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
 
   // Authorize a client with credentials, then call the Gmail API.
-  authorize(JSON.parse(content), getRecentEmail);
+  // authorize(JSON.parse(content), getRecentEmail);
   //authorize(JSON.parse(content), listLabels);
-  // sendMessage('me', 'Fuck');
+  authorize(JSON.parse(content), sendMessage);
 });
 
 /**
@@ -26,7 +29,7 @@ fs.readFile('credentials.json', (err, content) => {
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
-function authorize(credentials, callback) {
+function authorize(credentials, callback) { // credentials should eventually go into db
   const {client_secret, client_id, redirect_uris} = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
       client_id, client_secret, redirect_uris[0]);
@@ -35,8 +38,19 @@ function authorize(credentials, callback) {
   fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) return getNewToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
+    // console.log(callback);
     callback(oAuth2Client);
   });
+
+  // // Check if we have previously stored a token.
+  // fs.readFile(TOKEN_PATH, function(err, token) {
+  //   if (err) {
+  //     getNewToken(oauth2Client, callback);
+  //   } else {
+  //     oauth2Client.credentials = JSON.parse(token);
+  //     callback(oauth2Client);
+  //   }
+  // });
 }
 
 /**
@@ -136,15 +150,39 @@ function getRecentEmail(auth) {
  * @param  {String} email RFC 5322 formatted String.
  * @param  {Function} callback Function to call when the request is complete.
  */
-function sendMessage(userId, email, callback) {
+function sendMessage(auth, callback) {
   // Using the js-base64 library for encoding:
   // https://www.npmjs.com/package/js-base64
-  var base64EncodedEmail = Base64.encodeURI(email);
-  var request = gapi.client.gmail.users.messages.send({
-    'userId': userId,
+  //var base64EncodedEmail = Base64.encodeURI(email);
+  const gmail = google.gmail({version: 'v1', auth});
+  //var base64EncodedEmail = Buffer.from(message).toString('base64');
+
+  var base64EncodedEmail = btoa(`To: neismj12@gmail.com\n` +
+             `Subject: Fuck this better work\n` +
+             `Date:\r\n` + // Removing timestamp
+             `Message-Id:\r\n` + // Removing message id
+             `From:\r\n` + // Removing from
+             `If this doesn't work I'm gonna jump off my balcony`) // Adding our actual message
+  var mail = base64EncodedEmail;
+
+  // console.log(base64EncodedEmail); // debug
+
+  var request = gmail.users.messages.send({
+    'auth': auth,
+    'userId': 'me',
     'resource': {
-      'raw': base64EncodedEmail
-    }
+      'raw': mail
+      }
+    }, function(err, gmailMessage) {
+      if (callback) {
+        return callback(err, gmailMessage);
+      }
+
+      if (err) {
+        console.log('Error while trying to send gmail message => ' + err);
+      }
   });
-  request.execute(callback);
+
+  // request.execute(callback);
+  // request.callback;
 }
