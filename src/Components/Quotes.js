@@ -68,8 +68,8 @@ class Quotes extends React.Component {
                             <li>
                                 <label>Phone Number</label>
                                 <input id="txtPhone"
-                                  type="number"
-                                  placeholder="Enter phone number (with area code)"
+                                  type="text"
+                                  placeholder="xxx-xxx-xxxx"
                                   onChange={props.handleChange}
                                   onBlur={props.handleBlur}
                                   value={props.values.phone}

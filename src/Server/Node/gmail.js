@@ -5,8 +5,9 @@ const btoa = require('btoa');
 const googleAuth = require('google-auth-library');
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/gmail.send', 'https://www.googleapis.com/auth/gmail.readonly'];
-// const SCOPES = ['https://mail.google.com/'];
+const SCOPES = ['https://www.googleapis.com/auth/gmail.send', 
+                'https://www.googleapis.com/auth/gmail.readonly'];
+
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
@@ -20,7 +21,25 @@ fs.readFile('credentials.json', (err, content) => {
   // Authorize a client with credentials, then call the Gmail API.
   // authorize(JSON.parse(content), getRecentEmail);
   //authorize(JSON.parse(content), listLabels);
-  authorize(JSON.parse(content), sendMessage);
+
+  // original function call with no parameters
+  // authorize(JSON.parse(content), sendMessage);
+
+  /**
+   * Testing the message function with parameters
+   */
+  var base64EncodedEmail = btoa(`To: neismj12@gmail.com\n` +
+                                `Subject: Test 2\n` +
+                                `Date:\r\n` + // Removing timestamp
+                                `Message-Id:\r\n` + // Removing message id
+                                `From:\r\n` + // Removing from
+                                `Name - Test 2\nSecond Line\n3rd Line\n\nThis is a test to see if the email was sent correctly.`) // Adding our actual message
+
+  var test = 'hello world';
+  // console.log(base64EncodedEmail);
+  authorize(JSON.parse(content), sendMessageTest('', base64EncodedEmail));
+  // console.log(content);
+
 });
 
 /**
@@ -141,26 +160,20 @@ function getRecentEmail(auth) {
  * @param  {Function} callback Function to call when the request is complete.
  */
 function sendMessage(auth, callback) {
-  // Using the js-base64 library for encoding:
-  // https://www.npmjs.com/package/js-base64
-  //var base64EncodedEmail = Base64.encodeURI(email);
   const gmail = google.gmail({version: 'v1', auth});
-  //var base64EncodedEmail = Buffer.from(message).toString('base64');
-
   var base64EncodedEmail = btoa(`To: neismj12@gmail.com\n` +
              `Subject: Test 2\n` +
              `Date:\r\n` + // Removing timestamp
              `Message-Id:\r\n` + // Removing message id
              `From:\r\n` + // Removing from
-             `Name - Test 2\nSecond Line\n3rd Line`) // Adding our actual message
+             `Name - Test 2\nSecond Line\n3rd Line\n\nThis is a test to see if the email was sent correctly.`) // Adding our actual message
+          
   var mail = base64EncodedEmail;
-
-  // console.log(base64EncodedEmail); // debug
 
   var request = gmail.users.messages.send({
     'auth': auth,
     'userId': 'me',
-    'resource': {
+    'resource': { 
       'raw': mail
       }
     }, function(err, gmailMessage) {
@@ -172,7 +185,35 @@ function sendMessage(auth, callback) {
         console.log('Error while trying to send gmail message => ' + err);
       }
   });
+}
 
-  // request.execute(callback);
-  // request.callback;
+/**
+ * Send Message.
+ *
+ * @param  {String} userId User's email address. The special value 'me'
+ * can be used to indicate the authenticated user.
+ * @param  {String} message RFC 5322 formatted String.
+ * @param  {Function} callback Function to call when the request is complete.
+ */
+function sendMessageTest(auth, mail, callback) {
+  const gmail = google.gmail({version: 'v1', auth});
+  console.log(mail);
+  // var mail = message; // the b64 string
+  // console.log(callback);
+
+  var request = gmail.users.messages.send({
+    'auth': auth,
+    'userId': 'me',
+    'resource': { 
+      'raw': mail
+      }
+    }, function(err, gmailMessage) {
+      if (callback) {
+        return callback(err, gmailMessage);
+      }
+
+      if (err) {
+        console.log('Error while trying to send gmail message => ' + err);
+      }
+  });
 }
