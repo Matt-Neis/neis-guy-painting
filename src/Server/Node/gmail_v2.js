@@ -1,7 +1,9 @@
 /**
  * TESTING
  */
-var test = 'test';
+
+ // the b64 string
+var test = 'VG86IG5laXNtajEyQGdtYWlsLmNvbQpTdWJqZWN0OiBUZXN0IDIKRGF0ZToNCk1lc3NhZ2UtSWQ6DQpGcm9tOg0KTmFtZSAtIFRlc3QgMgpTZWNvbmQgTGluZQozcmQgTGluZQoKVGhpcyBpcyBhIHRlc3QgdG8gc2VlIGlmIHRoZSBlbWFpbCB3YXMgc2VudCBjb3JyZWN0bHku';
 sendGmailMessage(test);
 
 /**
@@ -16,7 +18,8 @@ function sendGmailMessage(message)
     const fs = require('fs');
     const readline = require('readline');
     const {google} = require('googleapis');
-    const btoa = require('btoa');
+    const btoa = require('btoa'); // encodes B64
+    const atob = require('atob'); // decodes B64
     const googleAuth = require('google-auth-library');
 
     // Delete token.json file if you need to update change the scopes
@@ -28,5 +31,24 @@ function sendGmailMessage(message)
     // time.
     const TOKEN_PATH = 'token.json';
 
-    console.log(message);
+    /**
+    * Create an OAuth2 client with the given credentials, and then execute the
+    * given callback function.
+    * @param {Object} credentials The authorization client credentials.
+    * @param {function} callback The callback to call with the authorized client.
+    */
+    function authorize(credentials, callback) { // credentials should eventually go into db
+        const {client_secret, client_id, redirect_uris} = credentials.installed;
+        const oAuth2Client = new google.auth.OAuth2(
+            client_id, client_secret, redirect_uris[0]);
+        
+        // Check if we have previously stored a token.
+        fs.readFile(TOKEN_PATH, (err, token) => {
+          if (err) return getNewToken(oAuth2Client, callback);
+          oAuth2Client.setCredentials(JSON.parse(token));
+          // console.log(callback);
+          callback(oAuth2Client);
+        });
+      }
+
 }
