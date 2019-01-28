@@ -32,6 +32,10 @@ function sendGmailMessage(message)
     const TOKEN_PATH = 'token.json';
 
     /**
+     * The following code contains all the functions from the original 
+     */
+
+    /**
     * Create an OAuth2 client with the given credentials, and then execute the
     * given callback function.
     * @param {Object} credentials The authorization client credentials.

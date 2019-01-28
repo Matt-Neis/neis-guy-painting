@@ -3,6 +3,7 @@ import {Formik} from 'formik' // forms library
 import {Yup} from 'yup' // object schema validation
 import '../Client/CSS/Quotes.css';
 import 'gmail-send';
+import Axios from 'axios';
 const btoa = require('btoa');
 
 class Quotes extends React.Component {
@@ -39,6 +40,10 @@ class Quotes extends React.Component {
                         console.log(b64String);
                         alert(JSON.stringify(values, null, 2));
                         actions.setSubmitting(false);
+
+                        // make the api post call
+                        Axios.post(`http://localhost:3001/API/send/${b64String}`);
+
                     }, 1000);
                   }}
                   render={props => (

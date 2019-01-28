@@ -1,5 +1,45 @@
-var test = 'VG86IG5laXNtajEyQGdtYWlsLmNvbQpTdWJqZWN0OiBGdW5jdGlvbiBUZXN0CkRhdGU6Ck1lc3NhZ2UtSWQ6CkZyb206Ck5hbWUgLSBUZXN0IDIKU2Vjb25kIExpbmUKM3JkIExpbmUKClRoaXMgaXMgYSB0ZXN0IHRvIHNlZSBpZiB0aGUgZW1haWwgd2FzIHNlbnQgY29ycmVjdGx5Lg=='
-sendGmailMessage(test);
+/**
+ * API for gmail 
+ */
+
+// the node server for hosting the api
+const express = require('express');
+const app = express();
+
+// cors
+const cors = require('cors');
+app.use(cors());
+
+// helps log requests to see how long it took to process
+const morgan = require('morgan');
+app.use(morgan('combined'));
+
+// test b64 string - IT WORKS!
+//var test = 'VG86IG5laXNtajEyQGdtYWlsLmNvbQpTdWJqZWN0OiBGdW5jdGlvbiBUZXN0CkRhdGU6Ck1lc3NhZ2UtSWQ6CkZyb206Ck5hbWUgLSBUZXN0IDIKU2Vjb25kIExpbmUKM3JkIExpbmUKClRoaXMgaXMgYSB0ZXN0IHRvIHNlZSBpZiB0aGUgZW1haWwgd2FzIHNlbnQgY29ycmVjdGx5Lg=='
+//sendGmailMessage(test);
+
+// root
+app.get("/API", (req, res) => {
+  console.log("Responding to root route");
+  res.send(
+    `Ths API exists to work with the gmail API.`
+    );
+});
+
+app.get("/API/send/:b64Msg", (req, res) => {
+  console.log('Sending gmail message.');
+  
+  var message = req.params.b64Msg;
+  res.send(message);
+
+  // call the main big function that actually sends the message
+  sendGmailMessage(message);
+
+})
+
+app.listen(3001, () => {
+  console.log("Server is up and listening on port 3001...");
+});
 
 /**
  * Could this possibly work?
