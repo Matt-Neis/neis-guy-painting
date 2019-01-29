@@ -1,12 +1,30 @@
 import React from 'react';
 import {Formik} from 'formik' // forms library
-import {Yup} from 'yup' // object schema validation
+// import {Yup} from 'yup' // object schema validation
 import '../Client/CSS/Quotes.css';
 import 'gmail-send';
 import Axios from 'axios';
 const btoa = require('btoa');
 
 class Quotes extends React.Component {
+
+    // handleChange = event => {
+    //     this.setState({emailString: event.target.value});
+    // }
+
+    // // api post call
+    // handleSubmit = event => {
+    //     event.preventDefault();
+
+    //     const emailString = this.state.message;
+
+    //     Axios.post(`http://localhost3001:/API/send`, {emailString})
+    //     .then(res => {
+    //         console.log(res);
+    //         console.log(res.data);
+    //     });
+    // }
+
     render() {
         return (
             <div>
@@ -32,17 +50,24 @@ class Quotes extends React.Component {
                                       `Message-Id:\r\n` + // Removing message id
                                       `From:\r\n` + // Removing from
                                       `Name - ${values.name}\nEmail - ${values.email}\nPhone - ${values.phone}\nAddress - ${values.address}\nCity - ${values.city}\n\n${values.desc}` // Adding our actual message - has to be all one line so it looks ugly af
-        
-                        alert(message);
 
                         // convert the json object to b64 so the gmail api can use it
                         var b64String = btoa(message);
-                        console.log(b64String);
-                        alert(JSON.stringify(values, null, 2));
+                        //console.log(b64String);
+                        // alert(JSON.stringify(values, null, 2));
                         actions.setSubmitting(false);
 
-                        // make the api post call
-                        Axios.post(`http://localhost:3001/API/send/${b64String}`);
+                        console.log(`http://localhost:3001/API/send/${b64String}`);
+
+                        // api call
+                        Axios.post(`http://localhost:3001/API/send/${b64String}`)
+                        .then(res => {
+                            console.log(res);
+                            console.log(res.data);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
 
                     }, 1000);
                   }}

@@ -1,5 +1,11 @@
 /**
- * API for gmail 
+ * Last Modified: 2019-01-28
+ * By: Matt Neis
+ * 
+ * This is the API that is used to communicate with the react front end. 
+ * It contains a giant function that utilizes the gmail api in order to send email messages 
+ * to dad's email containing quotation information. It can probably be written better
+ * at some point, but for now this works how it should. 
  */
 
 // the node server for hosting the api
