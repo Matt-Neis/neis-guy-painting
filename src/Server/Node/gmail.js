@@ -8,8 +8,6 @@
  * at some point, but for now this works how it should. 
  */
 
-//import testData from ('./testData.json');
-
 // the node server for hosting the api
 const express = require('express');
 const app = express();
@@ -22,18 +20,9 @@ app.use(cors());
 const morgan = require('morgan');
 app.use(morgan('combined'));
 
-// testing JSON file
-var json = 
-{
-  "name": "Matt Neis",
-  "email": "neismj12@gmail.com",
-  "phone": "4145504337",
-  "address": "1586 Quarry Park Dr.",
-  "city": "DE PERE",
-  "desc": "dsaf"
-}
-
-sendGmailMessage(json);
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var jsonParser = bodyParser.json();
 
 // root
 app.get("/API", (req, res) => {
@@ -43,30 +32,37 @@ app.get("/API", (req, res) => {
     );
 });
 
-app.get("/API/send/:data", (req, res) => {
-  console.log('Sending gmail message.');
-  
-  //var message = req.params.b64Msg;
-  //var values = req.params.values;
-  var data = req.params.data;
-  // res.send(message);
-  res.send(data);
+// this is the real post malone
+// jsonParser acts as a middleman, giving you accesst to req.body
+app.post("/API/send", jsonParser, (req, res) => {
+  var p_name = req.body.name;
+  var p_email = req.body.email;
+  var p_phone = req.body.phone;
+  var p_address = req.body.address;
+  var p_city = req.body.city;
+  var p_desc = req.body.desc;
 
-  // call the main big function that actually sends the message
-  sendGmailMessage(json);
-
-})
+  sendGmailMessage(p_name, p_email, p_phone, p_address, p_city, p_desc);
+});
 
 app.listen(3001, () => {
   console.log("Server is up and listening on port 3001...");
 });
 
 /**
- * Could this possibly work?
- * @param {String} message 
+ * Contains the functionality for sending an email from the "Request a Quote" form on the
+ * front end. Reaches out to the GMail API for permission to send/compose emails.
+ * 
+ * @param {String} name 
+ * @param {String} email 
+ * @param {String} phone 
+ * @param {String} address 
+ * @param {String} city 
+ * @param {String} desc 
  */
 
-function sendGmailMessage(values) // p_message was old param
+// p_message was old param, values was too
+function sendGmailMessage(name, email, phone, address, city, desc)
 {
   const fs = require('fs');
   const readline = require('readline');
@@ -83,16 +79,11 @@ function sendGmailMessage(values) // p_message was old param
   // time.
   const TOKEN_PATH = 'token.json';
 
-  // main
   // Load client secrets from a local file.
   fs.readFile('credentials.json', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
 
-    // Authorize a client with credentials, then call the Gmail API.
-    // authorize(JSON.parse(content), getRecentEmail);
-    //authorize(JSON.parse(content), listLabels);
-
-    // original function call with no parameters
+    // This is what actually sends the message. Do not delete.
     authorize(JSON.parse(content), sendMessage);
   });
 
@@ -215,22 +206,14 @@ function sendGmailMessage(values) // p_message was old param
    */
   function sendMessage(auth, callback) {
     const gmail = google.gmail({version: 'v1', auth});
-    // var base64EncodedEmail = btoa(`To: neismj12@gmail.com\n` +
-    //           `Subject: Test 2\n` +
-    //           `Date:\r\n` + // Removing timestamp
-    //           `Message-Id:\r\n` + // Removing message id
-    //           `From:\r\n` + // Removing from
-    //           `Name - Test 2\nSecond Line\n3rd Line\n\nThis is a test to see if the email was sent correctly.`) // Adding our actual message
-      
-    // var mail = base64EncodedEmail;
-
-    // create the message with the json string
+    
     var message = `To: neismj12@gmail.com\n` + // this will change
-                  `Subject: Request for Quote Received\n` +
-                  `Date:\r\n` + // Removing timestamp
-                  `Message-Id:\r\n` + // Removing message id
-                  `From:\r\n` + // Removing from
-                  `Name - ${values.name}\nEmail - ${values.email}\nPhone - ${values.phone}\nAddress - ${values.address}\nCity - ${values.city}\n\n${values.desc}` // Adding our actual message - has to be all one line so it looks ugly af
+    `Subject: Request for Quote Received\n` +
+    `Date:\r\n` + // Removing timestamp
+    `Message-Id:\r\n` + // Removing message id
+    `From:\r\n` + // Removing from
+    `Name - ${name}\nEmail - ${email}\nPhone - ${phone}\nAddress - ${address}\nCity - ${city}\n\n${desc}` // Adding our actual message - has to be all one line so it looks ugly af
+    
     var b64string = btoa(message);
 
     var request = gmail.users.messages.send({
@@ -249,35 +232,4 @@ function sendGmailMessage(values) // p_message was old param
         }
     });
   }
-
-  /**
-   * Send Message.
-   *
-   * @param  {String} userId User's email address. The special value 'me'
-   * can be used to indicate the authenticated user.
-   * @param  {String} message RFC 5322 formatted String.
-   * @param  {Function} callback Function to call when the request is complete.
-   */
-  function sendMessageTest(auth, mail, callback) {
-    const gmail = google.gmail({version: 'v1', auth});
-    console.log(mail);
-    // var mail = message; // the b64 string
-    // console.log(callback);
-
-    var request = gmail.users.messages.send({
-      'auth': auth,
-      'userId': 'me',
-      'resource': { 
-        'raw': mail
-        }
-      }, function(err, gmailMessage) {
-        if (callback) {
-          return callback(err, gmailMessage);
-        }
-
-        if (err) {
-          console.log('Error while trying to send gmail message => ' + err);
-        }
-    });
-  }
-} // end sendGmailMessage function
+}

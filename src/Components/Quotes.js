@@ -7,24 +7,6 @@ import Axios from 'axios';
 const btoa = require('btoa');
 
 class Quotes extends React.Component {
-
-    // handleChange = event => {
-    //     this.setState({emailString: event.target.value});
-    // }
-
-    // // api post call
-    // handleSubmit = event => {
-    //     event.preventDefault();
-
-    //     const emailString = this.state.message;
-
-    //     Axios.post(`http://localhost3001:/API/send`, {emailString})
-    //     .then(res => {
-    //         console.log(res);
-    //         console.log(res.data);
-    //     });
-    // }
-
     render() {
         return (
             <div>
@@ -43,33 +25,14 @@ class Quotes extends React.Component {
                   onSubmit={(values, actions) => { // this is where json values can be accessed
                     setTimeout(() => {
 
-                        // create the message with the json string
-                        var message = `To: neismj12@gmail.com\n` + // this will change
-                                      `Subject: Request for Quote Received\n` +
-                                      `Date:\r\n` + // Removing timestamp
-                                      `Message-Id:\r\n` + // Removing message id
-                                      `From:\r\n` + // Removing from
-                                      `Name - ${values.name}\nEmail - ${values.email}\nPhone - ${values.phone}\nAddress - ${values.address}\nCity - ${values.city}\n\n${values.desc}` // Adding our actual message - has to be all one line so it looks ugly af
-
-                        // convert the json object to b64 so the gmail api can use it
-                        var b64String = btoa(message);
-                        //console.log(b64String);
-                        alert(JSON.stringify(values, null, 2));
-                        actions.setSubmitting(false);
-
-                        var url = `http://localhost:3001/API/send/${b64String}`;
-
-                        console.log(JSON.stringify(values, null, 2));
-
-                        // plain old javascript for rn
-                        // var request = new XMLHttpRequest();
-                        // request.open('POST', url, true);
-                        // request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-                        // request.send(data);
-
                         // api call
-                        Axios.post('http://localhost:3000/API/send', {
-                            data: values
+                        Axios.post('http://localhost:3001/API/send', {
+                            name: values.name,
+                            email: values.email,
+                            phone: values.phone,
+                            address: values.address,
+                            city: values.city,
+                            desc: values.desc
                         })
                         .then(res => {
                             console.log(res);
