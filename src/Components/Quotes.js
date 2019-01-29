@@ -54,13 +54,23 @@ class Quotes extends React.Component {
                         // convert the json object to b64 so the gmail api can use it
                         var b64String = btoa(message);
                         //console.log(b64String);
-                        // alert(JSON.stringify(values, null, 2));
+                        alert(JSON.stringify(values, null, 2));
                         actions.setSubmitting(false);
 
-                        console.log(`http://localhost:3001/API/send/${b64String}`);
+                        var url = `http://localhost:3001/API/send/${b64String}`;
+
+                        console.log(JSON.stringify(values, null, 2));
+
+                        // plain old javascript for rn
+                        // var request = new XMLHttpRequest();
+                        // request.open('POST', url, true);
+                        // request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                        // request.send(data);
 
                         // api call
-                        Axios.post(`http://localhost:3001/API/send/${b64String}`)
+                        Axios.post('http://localhost:3000/API/send', {
+                            data: values
+                        })
                         .then(res => {
                             console.log(res);
                             console.log(res.data);

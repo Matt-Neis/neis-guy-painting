@@ -8,6 +8,8 @@
  * at some point, but for now this works how it should. 
  */
 
+//import testData from ('./testData.json');
+
 // the node server for hosting the api
 const express = require('express');
 const app = express();
@@ -20,9 +22,18 @@ app.use(cors());
 const morgan = require('morgan');
 app.use(morgan('combined'));
 
-// test b64 string - IT WORKS!
-//var test = 'VG86IG5laXNtajEyQGdtYWlsLmNvbQpTdWJqZWN0OiBGdW5jdGlvbiBUZXN0CkRhdGU6Ck1lc3NhZ2UtSWQ6CkZyb206Ck5hbWUgLSBUZXN0IDIKU2Vjb25kIExpbmUKM3JkIExpbmUKClRoaXMgaXMgYSB0ZXN0IHRvIHNlZSBpZiB0aGUgZW1haWwgd2FzIHNlbnQgY29ycmVjdGx5Lg=='
-//sendGmailMessage(test);
+// testing JSON file
+var json = 
+{
+  "name": "Matt Neis",
+  "email": "neismj12@gmail.com",
+  "phone": "4145504337",
+  "address": "1586 Quarry Park Dr.",
+  "city": "DE PERE",
+  "desc": "dsaf"
+}
+
+sendGmailMessage(json);
 
 // root
 app.get("/API", (req, res) => {
@@ -32,14 +43,17 @@ app.get("/API", (req, res) => {
     );
 });
 
-app.get("/API/send/:b64Msg", (req, res) => {
+app.get("/API/send/:data", (req, res) => {
   console.log('Sending gmail message.');
   
-  var message = req.params.b64Msg;
-  res.send(message);
+  //var message = req.params.b64Msg;
+  //var values = req.params.values;
+  var data = req.params.data;
+  // res.send(message);
+  res.send(data);
 
   // call the main big function that actually sends the message
-  sendGmailMessage(message);
+  sendGmailMessage(json);
 
 })
 
@@ -52,7 +66,7 @@ app.listen(3001, () => {
  * @param {String} message 
  */
 
-function sendGmailMessage(p_message)
+function sendGmailMessage(values) // p_message was old param
 {
   const fs = require('fs');
   const readline = require('readline');
@@ -80,22 +94,6 @@ function sendGmailMessage(p_message)
 
     // original function call with no parameters
     authorize(JSON.parse(content), sendMessage);
-
-    /**
-     * Testing the message function with parameters
-     */
-    // var base64EncodedEmail = btoa(`To: neismj12@gmail.com\n` +
-    //                               `Subject: Test 2\n` +
-    //                               `Date:\r\n` + // Removing timestamp
-    //                               `Message-Id:\r\n` + // Removing message id
-    //                               `From:\r\n` + // Removing from
-    //                               `Name - Test 2\nSecond Line\n3rd Line\n\nThis is a test to see if the email was sent correctly.`) // Adding our actual message
-
-    // var test = 'hello world';
-    // // console.log(base64EncodedEmail);
-    // authorize(JSON.parse(content), sendMessageTest('', base64EncodedEmail));
-    // // console.log(content);
-
   });
 
   /**
@@ -217,20 +215,29 @@ function sendGmailMessage(p_message)
    */
   function sendMessage(auth, callback) {
     const gmail = google.gmail({version: 'v1', auth});
-    var base64EncodedEmail = btoa(`To: neismj12@gmail.com\n` +
-              `Subject: Test 2\n` +
-              `Date:\r\n` + // Removing timestamp
-              `Message-Id:\r\n` + // Removing message id
-              `From:\r\n` + // Removing from
-              `Name - Test 2\nSecond Line\n3rd Line\n\nThis is a test to see if the email was sent correctly.`) // Adding our actual message
-            
-    var mail = base64EncodedEmail;
+    // var base64EncodedEmail = btoa(`To: neismj12@gmail.com\n` +
+    //           `Subject: Test 2\n` +
+    //           `Date:\r\n` + // Removing timestamp
+    //           `Message-Id:\r\n` + // Removing message id
+    //           `From:\r\n` + // Removing from
+    //           `Name - Test 2\nSecond Line\n3rd Line\n\nThis is a test to see if the email was sent correctly.`) // Adding our actual message
+      
+    // var mail = base64EncodedEmail;
+
+    // create the message with the json string
+    var message = `To: neismj12@gmail.com\n` + // this will change
+                  `Subject: Request for Quote Received\n` +
+                  `Date:\r\n` + // Removing timestamp
+                  `Message-Id:\r\n` + // Removing message id
+                  `From:\r\n` + // Removing from
+                  `Name - ${values.name}\nEmail - ${values.email}\nPhone - ${values.phone}\nAddress - ${values.address}\nCity - ${values.city}\n\n${values.desc}` // Adding our actual message - has to be all one line so it looks ugly af
+    var b64string = btoa(message);
 
     var request = gmail.users.messages.send({
       'auth': auth,
       'userId': 'me',
       'resource': { 
-        'raw': p_message
+        'raw': b64string
         }
       }, function(err, gmailMessage) {
         if (callback) {
