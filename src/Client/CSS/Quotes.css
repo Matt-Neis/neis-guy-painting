@@ -10,7 +10,6 @@
 
 .flex-outer > li > label,
 .flex-outer li p {
-  /*flex: 1 0 120px; */
   flex: 1 0 120px;
   max-width: 120px;
 }
@@ -30,6 +29,7 @@
     letter-spacing: .09em;
     border-radius: 2px; /* rounds out the edges of button */
     font-family: sans-serif;
+    cursor: pointer;
   }
 
 .flex-outer li input,
@@ -41,11 +41,6 @@
 h2, p {
     font-family: sans-serif;
 }
-
-/*div {
-  margin-left: 5%;
-  margin-right: 5%;
-} */
 
 /* Mobile view */
 @media (max-width: 768px) {
@@ -70,5 +65,3 @@ h2, p {
       width: 100%;
     }
 }
-
-/* alskdflkasdf */

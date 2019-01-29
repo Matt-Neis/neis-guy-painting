@@ -32,6 +32,10 @@ app.get("/API", (req, res) => {
     );
 });
 
+app.get("/API/send/test", (req, res) => {
+  res.send("hello world");
+});
+
 // this is the real post malone
 // jsonParser acts as a middleman, giving you accesst to req.body
 app.post("/API/send", jsonParser, (req, res) => {

@@ -2,9 +2,7 @@ import React from 'react';
 import {Formik} from 'formik' // forms library
 // import {Yup} from 'yup' // object schema validation
 import '../Client/CSS/Quotes.css';
-import 'gmail-send';
 import Axios from 'axios';
-const btoa = require('btoa');
 
 class Quotes extends React.Component {
     render() {
@@ -22,10 +20,14 @@ class Quotes extends React.Component {
                                    address: '',
                                    city: '',
                                    desc: ''}}
-                  onSubmit={(values, actions) => { // this is where json values can be accessed
+                  // TODO: Make this work
+                  onReset={(initialValues, actions) => {
+                      actions.resetForm(initialValues);
+                  }}
+                  onSubmit={(values, actions, initialValues) => { // this is where json values can be accessed
                     setTimeout(() => {
 
-                        // api call
+                        // api post call
                         Axios.post('http://localhost:3001/API/send', {
                             name: values.name,
                             email: values.email,
@@ -42,6 +44,10 @@ class Quotes extends React.Component {
                             console.log(err);
                         });
 
+                        // reset the form
+                        alert("Thank you for requesting a quote. You will hear from me shortly!");
+                        actions.resetForm(initialValues); // have to pass in the initial blank values
+                        
                     }, 1000);
                   }}
                   render={props => (
@@ -111,7 +117,7 @@ class Quotes extends React.Component {
                                   name="desc"/>
                             </li>
                             <li>
-                                <button type="submit">Submit</button>          
+                                <button type="submit">Submit</button>
                             </li>
                         </ul>
                       {props.errors.name && <div id="feedback">{props.errors.name}</div>}
